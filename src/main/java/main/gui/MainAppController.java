@@ -19,7 +19,7 @@ public class MainAppController implements Initializable {
     public PreparedStatement stmtSearch;
     public ResultSet result;
     public Label message;
-    public FontIcon icon;
+//    public FontIcon icon;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -36,14 +36,14 @@ public class MainAppController implements Initializable {
 
         // Paramétrage format du message d'erreur et de l'icône
         this.message.setStyle("-fx-text-fill: red;-fx-font-weight: bold");
-        this.icon.setIconColor(Color.RED);
+//        this.icon.setIconColor(Color.RED);
     }
 
     public void btnRecherche() {
 
         try {
             this.message.setVisible(false);
-            this.icon.setVisible(false);
+//            this.icon.setVisible(false);
             // Définit le critère de recherche pour la requête préparée
             stmtSearch.setInt(1, Integer.parseInt(this.inputCodeFournis.getText()));
 
@@ -65,13 +65,13 @@ public class MainAppController implements Initializable {
             switch (exception.getClass().getSimpleName()) {
                 case "NumberFormatException":
                     this.message.setVisible(true);
-                    this.icon.setVisible(true);
+//                    this.icon.setVisible(true);
                     this.message.setText("Le code fournisseur accepte seulement de 1 \u00E0 10 caract\u00E8res num\u00E9riques.");
                     break;
 
                 case "SQLDataException":
                     this.message.setVisible(true);
-                    this.icon.setVisible(true);
+//                    this.icon.setVisible(true);
                     if (exception.getMessage().equals("Current position is after the last row")) {
                         this.message.setText("Il n'existe pas de fournisseur portant le code fournisseur : " + this.inputCodeFournis.getText());
                     }
