@@ -19,6 +19,11 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2' //JDBC MariaDB
+    // Les dépendances pour utiliser ikonli avec Fontawesome
+    compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.5.0'
+    compile 'org.kordamp.ikonli:ikonli-core:11.5.0'
+    compile 'org.kordamp.ikonli:ikonli-javafx:11.5.0'
 }
 
 
