@@ -2,13 +2,14 @@ package main.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import main.gui.fournisseur.Fournisseur;
 import java.net.URL;
 import java.sql.*;
-import java.util.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainAppController implements Initializable {
     public Button BtnRecherche,btnAffiche,btnAfficheCmd;
@@ -22,6 +23,8 @@ public class MainAppController implements Initializable {
     public ComboBox<String> combo;
     public ObservableList<String> fournisseurListCombo = FXCollections.observableArrayList();
     public TextArea textCmd;
+    public Button btnAjouter;
+    public Button btnAnnuler;
 
 //    public FontIcon icon;
 
@@ -89,12 +92,13 @@ public class MainAppController implements Initializable {
 
         // Dans le cas où on arrive sur la fenêtre comportant la combobox
         if(this.Select_windows.isVisible()){
-            // Réinitialisation des inputs et affichage
+            // Réinitialisation des inputs, de la combobox et affichage
                 this.textCmd.clear();
                 this.combo.setValue(null);
+                this.fournisseurListCombo.clear();
 
             // Création de la requête préparée alimentant la comboBox
-                this.stmtCombo = con.prepareStatement("SELECT nomfou from fournis");
+                this.stmtCombo = con.prepareStatement("SELECT nomfou from fournis ORDER BY 1 ASC");
 
             // Exécution de la requête préparée alimentant la comboBox
                 resultCombo = this.stmtCombo.executeQuery();
@@ -144,5 +148,33 @@ public class MainAppController implements Initializable {
                 );
             }
         }
+    }
+
+    public void Ajouter() throws SQLException {
+        // Récupère le dernier numéro de fournisseur
+            Statement lastCodeStmt = con.createStatement();
+            ResultSet indexLastCode = lastCodeStmt.executeQuery("Select MAX (numfou) from fournis");
+            indexLastCode.first();
+
+        // Crée une instance de la classe fournisseur
+            Fournisseur newFourni = new Fournisseur(indexLastCode.getInt(1),this.inputNom.getText(),this.inputAdresse.getText(),this.inputCP.getText(),this.inputVille.getText(),this.inputContact.getText());
+
+        // Insertion dans la BDD
+            PreparedStatement insertOne = con.prepareStatement("INSERT INTO fournis (numfou,nomfou,ruefou,posfou,vilfou,confou) VALUES (?,?,?,?,?,?)");
+            insertOne.setInt(1,newFourni.getNumfou()+1); // Incrémentation du dernier numéro de fournisseur par 1
+            insertOne.setString(2,newFourni.getNomfou());
+            insertOne.setString(3,newFourni.getRuefou());
+            insertOne.setString(4,newFourni.getPosfou());
+            insertOne.setString(5,newFourni.getVilfou());
+            insertOne.setString(6,newFourni.getContact());
+            insertOne.execute();
+    }
+
+    public void Annuler() {
+        this.inputCP.clear();
+        this.inputAdresse.clear();
+        this.inputNom.clear();
+        this.inputContact.clear();
+        this.inputVille.clear();
     }
 }

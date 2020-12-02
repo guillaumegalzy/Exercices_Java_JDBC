@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.MainAppController">
    <children>
-      <VBox fx:id="Saisie_windows" prefHeight="400.0" prefWidth="600.0" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+      <VBox fx:id="Saisie_windows" prefHeight="400.0" prefWidth="600.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox prefWidth="560.0" spacing="20.0">
                <children>
@@ -28,17 +19,17 @@
                               <TextField fx:id="inputCodeFournis" prefHeight="25.0" prefWidth="200.0" promptText="Saisir le code du fournisseur..." />
                            </children>
                         </HBox>
-                        <Button fx:id="BtnRecherche" mnemonicParsing="false" onAction="#btnRecherche" prefHeight="25.0" prefWidth="141.0" text="Recherche">
+                        <Button fx:id="BtnRecherche" mnemonicParsing="false" onAction="#btnRecherche" style="-fx-font-weight: bold;" prefHeight="25.0" prefWidth="141.0" text="Recherche">
                            <effect>
                               <DropShadow />
                            </effect></Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="84.0" prefWidth="560.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="148.0" prefWidth="560.0">
                      <children>
 <!--                        <FontIcon fx:id="icon" iconColor="#a2d074" iconLiteral="fa-close" visible="false"/>-->
                         <Label fx:id="message" disable="true" prefHeight="17.0" prefWidth="424.0" text="Label" textAlignment="JUSTIFY" visible="false" />
-                        <Button fx:id="btnAffiche" contentDisplay="TOP" mnemonicParsing="false" onAction="#ToggleAffich" prefHeight="56.0" prefWidth="141.0" style="-fx-background-color: #8cd3ff;" text="Afficher les &#10;commandes">
+                        <Button fx:id="btnAffiche" contentDisplay="TOP" mnemonicParsing="false" onAction="#ToggleAffich" prefHeight="63.0" prefWidth="139.0" style="-fx-background-color: #8cd3ff;-fx-font-weight: bold" text="Afficher les &#10;commandes">
                            <effect>
                               <DropShadow />
                            </effect>
@@ -47,9 +38,9 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="251.0" prefWidth="560.0" spacing="40.0" style="-fx-border-color: black; -fx-border-width: 0.5pt;">
+            <VBox alignment="CENTER" prefHeight="314.0" prefWidth="560.0" style="-fx-border-color: black; -fx-border-width: 0.5pt;">
                <children>
-                  <GridPane hgap="20.0">
+                  <GridPane hgap="50.0" vgap="10.0">
                      <columnConstraints>
                         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="164.0" minWidth="10.0" prefWidth="80.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="10.0" prefWidth="200.0" />
@@ -60,22 +51,17 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="Nom" />
-                        <TextField fx:id="inputNom" editable="false" GridPane.columnIndex="1" />
-                        <Label text="Adresse" GridPane.rowIndex="2" />
-                        <TextField fx:id="inputAdresse" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Ville / CP" GridPane.rowIndex="4" />
-                        <TextField fx:id="inputVille" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="inputCP" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <Label text="Contact" GridPane.rowIndex="7" />
-                        <TextField fx:id="inputContact" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="inputNom" GridPane.columnIndex="1" />
+                        <Label text="Adresse" GridPane.rowIndex="1" />
+                        <TextField fx:id="inputAdresse" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Ville / CP" GridPane.rowIndex="2" />
+                        <TextField fx:id="inputVille" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="inputCP" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Contact" GridPane.rowIndex="3" />
+                        <TextField fx:id="inputContact" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -83,15 +69,21 @@
                   <Insets />
                </VBox.margin>
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets left="20.0" right="20.0" />
                </padding>
             </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="20.0">
+               <children>
+                  <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#Ajouter" style="-fx-font-weight: bold;" text="Ajouter" />
+                  <Button fx:id="btnAnnuler" cancelButton="true" mnemonicParsing="false" onAction="#Annuler" style="-fx-background-color: #FA8072; -fx-font-weight: bold;" text="Annuler" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
-      <VBox fx:id="Select_windows" layoutX="10.0" layoutY="30.0" prefHeight="400.0" prefWidth="600.0" spacing="30.0" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+      <VBox fx:id="Select_windows" layoutX="10.0" layoutY="30.0" prefHeight="400.0" prefWidth="600.0" spacing="30.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -100,7 +92,7 @@
                <children>
                   <Label text="Choix du fournisseur" />
                   <ComboBox fx:id="combo" onAction="#changeCombo" prefHeight="25.0" prefWidth="261.0" promptText="Choisissez" />
-                  <Button fx:id="btnAfficheCmd" contentDisplay="TOP" mnemonicParsing="false" onAction="#ToggleAffich" style="-fx-background-color: #8cd3ff;" text="Fournisseurs">
+                  <Button fx:id="btnAfficheCmd" contentDisplay="TOP" mnemonicParsing="false" onAction="#ToggleAffich" style="-fx-background-color: #8cd3ff;-fx-font-weight: bold" text="Fournisseurs">
                      <effect>
                         <DropShadow />
                      </effect>
