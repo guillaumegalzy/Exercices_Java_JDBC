@@ -2,7 +2,6 @@ package main.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -96,6 +95,11 @@ public class MainAppController implements Initializable {
                     if (exception.getMessage().equals("Current position is after the last row")) {
                         this.message.setText("Il n'existe pas de fournisseur portant le code fournisseur : " + this.inputCodeFournis.getText());
                     }
+                    break;
+
+                default:
+                    System.out.println(exception.getMessage());
+                    break;
             }
         }
     }
