@@ -8,8 +8,7 @@ import javafx.scene.layout.VBox;
 import main.gui.fournisseur.Fournisseur;
 import java.net.URL;
 import java.sql.*;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainAppController implements Initializable {
     public Button BtnRecherche,btnAffiche,btnAfficheCmd;
@@ -25,6 +24,10 @@ public class MainAppController implements Initializable {
     public TextArea textCmd;
     public Button btnAjouter;
     public Button btnAnnuler;
+    public Label errorNom,errorAdresse,errorVille,errorCP,errorContact;
+    public Map<TextInputControl,Label> inputErrorMap;
+    public Boolean errorTot = true;  // Initialise à true les errors avant toute vérifications
+    public List<Boolean> errorInput = new ArrayList<>();
 
 //    public FontIcon icon;
 
@@ -44,6 +47,14 @@ public class MainAppController implements Initializable {
         // Paramétrage format du message d'erreur et de l'icône
         this.message.setStyle("-fx-text-fill: red;-fx-font-weight: bold");
 //        this.icon.setIconColor(Color.RED);
+
+        //  Liste des inputs avec label d'erreur associés
+            inputErrorMap = new HashMap<>() ;
+            inputErrorMap.put(inputNom, errorNom);
+            inputErrorMap.put(inputAdresse,errorAdresse);
+            inputErrorMap.put(inputVille,errorVille);
+            inputErrorMap.put(inputCP,errorCP);
+            inputErrorMap.put(inputContact,errorContact);
     }
 
     public void btnRecherche() {
@@ -150,31 +161,120 @@ public class MainAppController implements Initializable {
         }
     }
 
+    /**
+     * Fonction de vérification des champs du formulaire. Le résultat de chacune des vérifications est stocké dans la List errorInput
+     */
+    public void Verify(){
+        // Vide la list suivant les erreurs recontrées sur les champs avant toute nouvelle vérification
+            errorInput.clear();
+
+        // Vérification de chacun des champs
+            for (TextInputControl input : inputErrorMap.keySet()) {
+                // Vérification spécifique à chaque input
+                switch (input.idProperty().get()){
+                    case "inputNom":
+                        if(input.getText().matches("[\\D]{1,25}")){
+                            this.errorInput.add(false);
+                            inputErrorMap.get(input).setVisible(false);
+                            input.setStyle("");
+                        }else{
+                            this.errorInput.add(true);
+                            input.setStyle("-fx-border-color: red;-fx-border-width: 0.5pt");
+                            inputErrorMap.get(input).setVisible(true);
+                        }
+                        break;
+
+                    case "inputAdresse":
+                        if(input.getText().matches("[\\d\\D]{1,50}")){
+                            this.errorInput.add(false);
+                            inputErrorMap.get(input).setVisible(false);
+                            input.setStyle("");
+                        }else{
+                            this.errorInput.add(true);
+                            input.setStyle("-fx-border-color: red;-fx-border-width: 0.5pt");
+                            inputErrorMap.get(input).setVisible(true);
+                        }
+                        break;
+
+                    case "inputCP":
+                        if(input.getText().matches("[\\d]{5}")){
+                            this.errorInput.add(false);
+                            inputErrorMap.get(input).setVisible(false);
+                            input.setStyle("");
+                        }else{
+                            this.errorInput.add(true);
+                            input.setStyle("-fx-border-color: red;-fx-border-width: 0.5pt");
+                            inputErrorMap.get(input).setVisible(true);
+                        }
+                        break;
+
+                    case "inputVille":
+                        if(input.getText().matches("[\\D]{1,30}")){
+                            this.errorInput.add(false);
+                            inputErrorMap.get(input).setVisible(false);
+                            input.setStyle("");
+                        }else{
+                            this.errorInput.add(true);
+                            input.setStyle("-fx-border-color: red;-fx-border-width: 0.5pt");
+                            inputErrorMap.get(input).setVisible(true);
+                        }
+                        break;
+
+                    case "inputContact":
+                        if(input.getText().matches("[\\D]{1,15}")){
+                            this.errorInput.add(false);
+                            inputErrorMap.get(input).setVisible(false);
+                            input.setStyle("");
+                        }else{
+                            this.errorInput.add(true);
+                            input.setStyle("-fx-border-color: red;-fx-border-width: 0.5pt");
+                            inputErrorMap.get(input).setVisible(true);
+                        }
+                        break;
+
+                }
+            }
+
+        // Si aucune erreur rencontré sur les champs, alors OK pour requête ajout
+            if (!errorInput.contains(true)){
+                errorTot = false;
+            }
+    }
+
     public void Ajouter() throws SQLException {
-        // Récupère le dernier numéro de fournisseur
+        // Vérification des champs
+            Verify();
+
+        // Pas de requête s'il y a au moins une erreur
+        if(!errorTot) {
+            System.out.println("ok");
+            // Récupère le dernier numéro de fournisseur
             Statement lastCodeStmt = con.createStatement();
             ResultSet indexLastCode = lastCodeStmt.executeQuery("Select MAX (numfou) from fournis");
             indexLastCode.first();
 
-        // Crée une instance de la classe fournisseur
-            Fournisseur newFourni = new Fournisseur(indexLastCode.getInt(1),this.inputNom.getText(),this.inputAdresse.getText(),this.inputCP.getText(),this.inputVille.getText(),this.inputContact.getText());
+            // Crée une instance de la classe fournisseur
+            Fournisseur newFourni = new Fournisseur(indexLastCode.getInt(1), this.inputNom.getText(), this.inputAdresse.getText(), this.inputCP.getText(), this.inputVille.getText(), this.inputContact.getText());
 
-        // Insertion dans la BDD
+            // Insertion dans la BDD
             PreparedStatement insertOne = con.prepareStatement("INSERT INTO fournis (numfou,nomfou,ruefou,posfou,vilfou,confou) VALUES (?,?,?,?,?,?)");
-            insertOne.setInt(1,newFourni.getNumfou()+1); // Incrémentation du dernier numéro de fournisseur par 1
-            insertOne.setString(2,newFourni.getNomfou());
-            insertOne.setString(3,newFourni.getRuefou());
-            insertOne.setString(4,newFourni.getPosfou());
-            insertOne.setString(5,newFourni.getVilfou());
-            insertOne.setString(6,newFourni.getContact());
+            insertOne.setInt(1, newFourni.getNumfou() + 1); // Incrémentation du dernier numéro de fournisseur par 1
+            insertOne.setString(2, newFourni.getNomfou());
+            insertOne.setString(3, newFourni.getRuefou());
+            insertOne.setString(4, newFourni.getPosfou());
+            insertOne.setString(5, newFourni.getVilfou());
+            insertOne.setString(6, newFourni.getContact());
             insertOne.execute();
+        }
+        errorTot = true; // Réinitialise le booleen d'erreur pour prochain ajout
     }
 
     public void Annuler() {
-        this.inputCP.clear();
-        this.inputAdresse.clear();
-        this.inputNom.clear();
-        this.inputContact.clear();
-        this.inputVille.clear();
+        // Vide tous les champs et réinitialise les mises en forme de vérification du formulaire
+            for (TextInputControl input: inputErrorMap.keySet()) {
+                input.clear();
+                input.setStyle("");
+                inputErrorMap.get(input).setVisible(false);
+            }
     }
 }
