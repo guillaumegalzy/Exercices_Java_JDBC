@@ -2,6 +2,7 @@ package main.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -28,6 +29,8 @@ public class MainAppController implements Initializable {
     public Map<TextInputControl,Label> inputErrorMap;
     public Boolean errorTot = true;  // Initialise à true les errors avant toute vérifications
     public List<Boolean> errorInput = new ArrayList<>();
+    public TitledPane confirmMessage;
+    public Button btnConfirm;
 
 //    public FontIcon icon;
 
@@ -265,7 +268,9 @@ public class MainAppController implements Initializable {
             insertOne.setString(5, newFourni.getVilfou());
             insertOne.setString(6, newFourni.getContact());
             insertOne.execute();
+            this.confirmMessage.setVisible(true);
         }
+
         errorTot = true; // Réinitialise le booleen d'erreur pour prochain ajout
     }
 
@@ -276,5 +281,10 @@ public class MainAppController implements Initializable {
                 input.setStyle("");
                 inputErrorMap.get(input).setVisible(false);
             }
+    }
+
+    public void hideConfirmMessage() {
+        this.confirmMessage.setVisible(false);
+        Annuler();
     }
 }
